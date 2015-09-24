@@ -28,7 +28,6 @@
     "zuul": "^3.6.0"
   },
   "dependencies": {
-    "regenerator": "^0.8.40",
-    "whatwg-fetch": "^0.9.0"
+    "webfontloader": "^1.6.6"
   }
 }

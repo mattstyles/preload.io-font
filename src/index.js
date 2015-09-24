@@ -1,6 +1,5 @@
 
-import 'regenerator/runtime'
-import 'whatwg-fetch'
+import wf from 'webfontloader'
 import { EVENTS } from 'preload.io'
 
 
@@ -23,39 +22,37 @@ export default class FontLoader {
         this.name = 'fontLoader'
     }
 
-    async load( ctx, opts ) {
-        // @TODO optionally use old school tag loading
-        let res = null
-        let blob = null
-        try {
-            res = await fetch( opts.url )
-                .then( response => {
-                    if ( response.status >=200 && response.status < 300 ) {
-                        return response
-                    }
-
-                    throw new IOError({
-                        message: response.statusText,
-                        status: response.status
+    load( ctx, opts ) {
+        return new Promise( ( resolve, reject ) => {
+            wf.load( Object.assign({
+                fontactive: font => {
+                    ctx.emit( 'font:loaded', {
+                        id: opts.id
                     })
-                })
-
-            if ( this.opts.blob ) {
-                blob = await res.blob()
-            }
-        } catch( err ) {
-            ctx.emit( EVENTS.LOAD_ERROR, {
-                id: opts.id,
-                status: err.status,
-                res: err
-            })
-            return
-        }
-
-        ctx.emit( EVENTS.LOAD, {
-            id: opts.id,
-            status: res.status,
-            res: blob || res
+                },
+                active: () => {
+                    ctx.emit( EVENTS.LOAD, {
+                        id: opts.id,
+                        res: {
+                            active: true,
+                            err: null
+                        }
+                    })
+                    resolve()
+                },
+                inactive: err => {
+                    ctx.emit( EVENTS.LOAD_ERROR, {
+                        id: opts.id,
+                        res: {
+                            active: false,
+                            err: err
+                        }
+                    })
+                    reject( new IOError({
+                        message: 'Error loading fonts'
+                    }))
+                }
+            }, opts.resource ) )
         })
     }
 }
