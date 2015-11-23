@@ -56,3 +56,5 @@ export default class FontLoader {
     })
   }
 }
+
+module.exports = Fontloader
