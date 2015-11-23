@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Preload.io</title>
+    <style>
+      .open {
+        opacity: 0;
+        transition: opacity .177s linear;
+        font-family: 'Open Sans', sans-serif;
+      }
+      .wf-active .open {
+        opacity: 1;
+      }
+    </style>
 </head>
 <body>
     <h1>Preload.io font loader</h1>
+    <div class="open">Font loaded!</div>
     <script src="build.js"></script>
 </body>
 </html>

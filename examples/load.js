@@ -7,25 +7,25 @@ let preloader = new Preloader()
 preloader.register( new FontLoader())
 
 preloader.load({
-    resource: {
-        google: {
-            families: [ 'Open+SansO:400, 400italic, 700' ]
-        },
-        classes: true
+  resource: {
+    google: {
+      families: [ 'Open+Sans:400, 400italic, 700' ]
     },
-    loader: 'fontLoader'
+    classes: true
+  },
+  loader: 'fontLoader'
 })
 
 
 preloader.on( EVENTS.LOAD, event => {
-    console.log( '-- LOAD' )
-    console.log( event )
+  console.log( '-- LOAD' )
+  console.log( event )
 })
 preloader.on( EVENTS.LOAD_ERROR, event => {
-    console.log( '-- LOAD ERROR' )
-    console.log( event )
+  console.log( '-- LOAD ERROR' )
+  console.log( event )
 })
 preloader.on( EVENTS.COMPLETE, res => {
-    console.log( '-- COMPLETE' )
-    console.log( res )
+  console.log( '-- COMPLETE' )
+  console.log( res )
 })
